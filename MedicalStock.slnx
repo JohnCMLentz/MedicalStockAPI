@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="MedicalStock.Api/MedicalStock.Api.csproj" />
+  <Project Path="MedicalStock.Tests/MedicalStock.Tests.csproj" />
+</Solution>
