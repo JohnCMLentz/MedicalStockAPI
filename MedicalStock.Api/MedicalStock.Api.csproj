@@ -20,4 +20,9 @@
     <PackageReference Include="NSwag.AspNetCore" Version="14.7.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+    <Folder Include="Models\Enums\" />
+  </ItemGroup>
+
 </Project>
