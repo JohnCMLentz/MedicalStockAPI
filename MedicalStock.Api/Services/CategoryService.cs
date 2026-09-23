@@ -72,7 +72,7 @@ namespace MedicalStock.Api.Services
 
             string normalizedName = request.Name.Trim();
 
-            if(string.IsNullOrWhiteSpace(normalizedName))
+            if (string.IsNullOrWhiteSpace(normalizedName))
                 throw new ArgumentException("Category name is required.");
 
             bool nameAlreadyExists = await _context.Categories.AnyAsync(c => c.Id != id && c.Name.ToLower() == normalizedName.ToLower());
@@ -88,11 +88,23 @@ namespace MedicalStock.Api.Services
 
         public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken)
         {
-            Category? category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+            Category? category = await _context.Categories
+                .FirstOrDefaultAsync(category => category.Id == id, cancellationToken);
 
-            if (category == null) return false;
+            if (category is null)
+                return false;
+
+            bool hasProducts = await _context.Products
+                .AnyAsync(product => product.CategoryId == id, cancellationToken);
+
+            if (hasProducts)
+            {
+                throw new InvalidOperationException(
+                    "The category cannot be deleted because it has registered products.");
+            }
 
             _context.Categories.Remove(category);
+
             await _context.SaveChangesAsync(cancellationToken);
 
             return true;

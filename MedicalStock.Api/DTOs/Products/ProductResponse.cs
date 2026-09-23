@@ -10,6 +10,7 @@ namespace MedicalStock.Api.DTOs.Products
         public string Manufacturer { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public int CategoryId { get; set; }
+        public string CategoryName { get; set; } = string.Empty;
         public Category Category { get; set; } = null!;
     }
 }

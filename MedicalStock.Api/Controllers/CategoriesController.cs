@@ -75,13 +75,22 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete(
+    int id,
+    CancellationToken cancellationToken)
     {
-        bool deleted = await _categoryService.DeleteAsync(id, cancellationToken);
+        try
+        {
+            bool deleted = await _categoryService.DeleteAsync(id, cancellationToken);
 
-        if (!deleted)
-            return NotFound();
+            if (!deleted)
+                return NotFound();
 
-        return NoContent();
+            return NoContent();
+        }
+        catch (InvalidOperationException exception)
+        {
+            return Conflict(new { message = exception.Message });
+        }
     }
 }

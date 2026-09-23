@@ -1,5 +1,8 @@
 @MedicalStock.Api_HostAddress = http://localhost:5288
-@categoryId = 1
+@categoryId = 3
+@productId = 2
+@productBarcode = 12345678901
+@productBarcode_ = 12345678924
 
 ### Listar categorias
 GET {{MedicalStock.Api_HostAddress}}/api/categories
@@ -13,7 +16,7 @@ Accept: application/json
 POST {{MedicalStock.Api_HostAddress}}/api/categories
 Content-Type: application/json
 {
-  "name": "Medicines"
+  "name": "Pain"
 }
 
 ### Atualizar categoria
@@ -25,3 +28,40 @@ Content-Type: application/json
 
 ### Deletar categoria
 DELETE {{MedicalStock.Api_HostAddress}}/api/categories/{{categoryId}}
+
+### Listar produtos
+GET {{MedicalStock.Api_HostAddress}}/api/products
+Accept: application/json
+
+### Buscar produto pelo ID
+GET {{MedicalStock.Api_HostAddress}}/api/products/{{productId}}
+Accept: application/json
+
+### Buscar produto pelo código de barras
+GET {{MedicalStock.Api_HostAddress}}/api/products/barcode/{{productBarcode}}
+Accept: application/json
+
+### Criar produto
+POST {{MedicalStock.Api_HostAddress}}/api/products
+Content-Type: application/json
+{
+  "name": "Aspirin",
+  "manufacturer": "xMed",
+  "price": 9.99,
+  "categoryId": {{categoryId}},
+  "barcode": "12345678915"
+}
+
+### Atualizar produto
+PUT {{MedicalStock.Api_HostAddress}}/api/products/{{productId}}
+Content-Type: application/json
+{
+  "name": "Updated Product Name",
+  "manufacturer": "yMed",
+  "price": 12.99,
+  "categoryId": {{categoryId}},
+  "barcode": "{{productBarcode}}"
+}
+
+### Deletar produto
+DELETE {{MedicalStock.Api_HostAddress}}/api/products/{{productId}}
